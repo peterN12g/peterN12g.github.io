@@ -1,7 +1,8 @@
 let pallet = [];
-let colors = ["red", "orange", "yellow", "green", "cyan", "blue", "magenta", "brown", "white", "black"];
+let colors = ["red", "orange", "yellow", "green", "cyan", "blue", "magenta", [139, 69, 19], "white", "black"];
 let prevX, prevY;
 let thickness;
+let locked = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -31,12 +32,6 @@ function draw() {
 
 
   if(mouseIsPressed) {
-    for(let box of pallet) {
-      if(mouseX > box.x && mouseX < box.x + 50 && mouseY > box.y && mouseY < box.y + 50) {
-        selectedColor = box.color;
-        return;
-      }
-    }
     if(mouseX > 60) {
       stroke(selectedColor);
       strokeWeight(thickness.value());
@@ -45,6 +40,18 @@ function draw() {
   }  
   prevX = mouseX;
   prevY = mouseY;
+}
+
+function mousePressed() {
+  if (!locked) {
+    for (let box of pallet) {
+      if (mouseX > box.x && mouseX < box.x + 50 && mouseY > box.y && mouseY < box.y + 50) {
+        selectedColor = box.color;
+        colorLocked = true;
+        return;
+      }
+    }
+  }
 }
 
 class colorBox {
