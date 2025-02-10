@@ -3,6 +3,7 @@ let colors = ["red", "orange", "yellow", "green", "cyan", "blue", "magenta", [13
 let prevX, prevY;
 let thickness;
 let locked = false;
+let selectedColor = "black";
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
