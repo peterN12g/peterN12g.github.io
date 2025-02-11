@@ -42,8 +42,6 @@ function keyReleased() {
 
 function getDirection() {
   switch (keyCode) {
-    case UP_ARROW: return "up";
-    case DOWN_ARROW: return "down";
     case LEFT_ARROW: return "left";
     case RIGHT_ARROW: return "right";
     default: return null;
@@ -63,8 +61,6 @@ class Character {
   }
 
   setupAnimations() {
-    this.addAnimation("down", new SpriteAnimation(this.sprite, 6, 5, 6));
-    this.addAnimation("up", new SpriteAnimation(this.sprite, 0, 5, 6));
     this.addAnimation("stand", new SpriteAnimation(this.sprite, 0, 0, 1));
     this.addAnimation("right", new SpriteAnimation(this.sprite, 0, 0, 6));
     
@@ -81,12 +77,6 @@ class Character {
     let animation = this.animations[this.currentAnimation];
     if (animation) {
       switch (this.currentAnimation) {
-        case "up":
-          this.y -= 2;
-          break;
-        case "down": 
-          this.y += 2;
-          break;
         case "right":
           this.x += 2;
           break;
@@ -114,7 +104,7 @@ class SpriteAnimation {
   }
 
   draw() {
-    let s = this.flipped ? -1 : 1;
+    let s = (this.flipped) ? -1 : 1;
     scale(s,1);
     image(this.spritesheet, 0, 0, 80, 80, this.u*80, this.v*80, 80, 80);
 
