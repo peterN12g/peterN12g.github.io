@@ -54,9 +54,14 @@ function keyPressed() {
 
 function keyReleased() {
   for (let char of characters) {
-    char.currentAnimation = "stand";
+    if (char.currentAnimation === "left") {
+      char.currentAnimation = "standLeft";
+    } else {
+      char.currentAnimation = "stand";
+    }
   }
 }
+
 
 function getDirection() {
   switch (keyCode) {
@@ -85,6 +90,10 @@ class Character {
     let walkLeft = new SpriteAnimation(this.sprite, 0, 0, 6);
     walkLeft.flipped = true;
     this.addAnimation("left", walkLeft);
+
+    let standLeft = new SpriteAnimation(this.sprite, 0, 0, 1);
+    standLeft.flipped = true;
+    this.addAnimation("standLeft", standLeft);
   }
 
   addAnimation(key, animation) {
@@ -94,14 +103,20 @@ class Character {
   draw() {
     let animation = this.animations[this.currentAnimation];
     if (animation) {
+      let newX = this.x;
       switch (this.currentAnimation) {
         case "right":
-          this.x += 2;
+          if (this.x + 40 < width) {
+            newX += 2;
+          }
           break;
         case "left":
-          this.x -= 2;
+          if (this.x - 40 > 0) {
+            newX -= 2;
+          }
           break;
       }
+      this.x = newX;
       push();
       translate(this.x, this.y);
       animation.draw();
