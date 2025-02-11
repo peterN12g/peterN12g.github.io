@@ -11,9 +11,27 @@ function setup() {
   createCanvas(400, 400);
   imageMode(CENTER);
 
-  let cyclops = new Character("Cyclops", random(80, width - 80), random(80, height - 80), sprites.cyclops);
-  let ninja = new Character("Ninja", random(80, width - 80), random(80, height - 80), sprites.ninja);
-  let robot = new Character("Robot", random(80, width - 80), random(80, height - 80), sprites.robot);
+  let positions = [];
+
+  function preventSpriteOverlap() {
+    let x, y, overlapping;
+    do {
+      x = random(80, width - 80);
+      y = random(80, height - 80);
+      overlapping = positions.some(pos => dist(x, y, pos.x, pos.y) < 80);
+    } while (overlapping);
+    
+    positions.push({ x, y });
+    return { x, y };
+  }
+
+  let cyclopsPos = preventSpriteOverlap();
+  let ninjaPos = preventSpriteOverlap();
+  let robotPos = preventSpriteOverlap();
+
+  let cyclops = new Character("Cyclops", cyclopsPos.x, cyclopsPos.y, sprites.cyclops);
+  let ninja = new Character("Ninja", ninjaPos.x, ninjaPos.y, sprites.ninja);
+  let robot = new Character("Robot", robotPos.x, robotPos.y, sprites.robot);
   characters.push(cyclops, ninja, robot);
 }
 
