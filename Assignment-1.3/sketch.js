@@ -1,5 +1,6 @@
 let characters = [];
 let sprites = {};
+let lastDirection = "right";
 
 function preload() {
   sprites.cyclops = loadImage("media/cyclops.png");
@@ -48,6 +49,7 @@ function keyPressed() {
   if (direction) {
     for (let char of characters) {
       char.currentAnimation = direction;
+      lastDirection = direction;
     }
   }
 }
@@ -56,7 +58,7 @@ function keyReleased() {
   for (let char of characters) {
     if (char.currentAnimation === "left") {
       char.currentAnimation = "standLeft";
-    } else {
+    } else if (lastDirection === "right") {
       char.currentAnimation = "stand";
     }
   }
