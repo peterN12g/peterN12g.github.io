@@ -7,8 +7,7 @@ let GameStates = Object.freeze({
 });
 let gameState = GameStates.START;
 let highScore = 0;
-let gameFont;
-let bugImage;
+let gameFont, bugImage;
 var bugs = [];
 let count = Math.floor(Math.random() * (55 - 40 + 1)) + 40;
 const spriteWidth = 80;
@@ -106,6 +105,8 @@ function draw() {
 }
 
 function mousePressed() {
+  if (gameState !== GameStates.PLAY) return;
+
   for (let bug of bugs) {
     if (mouseX > bug.x && mouseX < bug.x + spriteWidth && mouseY > bug.y && mouseY < bug.y + spriteHeight && !bug.squashed) {
       bug.squashed = true;
