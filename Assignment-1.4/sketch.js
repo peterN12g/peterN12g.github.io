@@ -100,6 +100,7 @@ function draw() {
       text("Score: " + score, width / 2, height / 2);
       if (score > highScore) highScore = score;
       text("High Score: " + highScore, width / 2, height / 2 + 20);
+      text("Reload the Page to Play Again!", width / 2, height / 2 + 40)
       break;
   }
 }
