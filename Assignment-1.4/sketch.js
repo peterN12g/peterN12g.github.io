@@ -116,7 +116,7 @@ function mousePressed() {
 }
 
 function keyPressed() {
-  if (keyCode === ENTER) {
+  if (keyCode === ENTER && gameState === GameStates.START) {
     gameState = GameStates.PLAY;
   }
 }
