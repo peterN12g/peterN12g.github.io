@@ -42,9 +42,8 @@ function setup() {
 function draw() {
   background(220);
 
-  frameRateMultiplier = 1 + Math.floor(score / 2.5);
-  frameRateMultiplier = Math.min(frameRateMultiplier, 5);
-  speedMultiplier = 1 + Math.floor(score / 5);
+  frameRateMultiplier = 1 + Math.floor(score / 3);
+  speedMultiplier = 1 + Math.floor(score / 6);
 
   switch (gameState) {
     case GameStates.START:
@@ -60,7 +59,7 @@ function draw() {
 
       for (let bug of bugs) {
         if (!bug.squashed) {
-          if (frameCount % (10 - frameRateMultiplier) === 0) {
+          if (frameCount % Math.max(1, (10 - frameRateMultiplier)) === 0) {
             bug.currentFrame = (bug.currentFrame + 1) % 9;
           }
           bug.y += bug.yDirection * bugSpeed * speedMultiplier * deltaTime / 1000;
