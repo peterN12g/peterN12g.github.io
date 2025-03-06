@@ -1,27 +1,29 @@
-let synth1, filt, rev, polySynth, noise1, ampEnv1, filt1, lfo;
-let filterSlider, reverbSlider, detuneSlider, noiseVolSlider;
+let synth1, filt, rev, polySynth, noise1, ampEnv1, filt1, lfo, filterSlider, reverbSlider, detuneSlider, noiseVolSlider;
 let activeKey = null;
 let lfoEnabled = true;
 let lfoWasActive = true;
 
 let keyNotes = {
-  'a': 'A3', 
-  's': 'B3', 
-  'd': 'C4', 
-  'f': 'D4',
-  'g': 'E4', 
-  'h': 'F4', 
-  'j': 'G4', 
-  'k': 'A4'
+  'a': 'A3',  
+  's': 'A#3',
+  'd': 'B3',  
+  'f': 'C4',  
+  'g': 'D4',  
+  'h': 'E4',  
+  'j': 'F4',  
+  'k': 'G4',  
+  'l': 'A4'  
 };
+
 let keyNotes1 = {
-  'q': 'D3', 
-  'w': 'F3', 
-  'e': 'A3', 
-  'r': 'C4',
-  't': 'E4', 
-  'y': 'G4', 
-  'u': 'B4'
+  'q': 'C4',  
+  'w': 'D4',  
+  'e': 'E4',  
+  'r': 'F4',  
+  't': 'G4',  
+  'y': 'A4',  
+  'u': 'B4',  
+  'i': 'C5'  
 };
 
 function setup() {
@@ -89,7 +91,7 @@ function setup() {
 function draw() {
   background(220);
   textSize(16);
-  text("Monophonic Synth (A-K)", 20, 20);
+  text("Monophonic Synth (A-L)", 20, 20);
   text("Polyphonic Synth (Q-U)", 20, 40);
   text("Noise (Z)", 20, 60);
   text("Filter Cutoff", 20, 240);
