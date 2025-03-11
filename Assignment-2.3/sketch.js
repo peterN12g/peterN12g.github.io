@@ -1,4 +1,5 @@
 let osc, noise1, noise2, filt1, filt2, img;
+let showImage = false;
 
 function preload() {
   img = loadImage("media/splash.png");
@@ -12,14 +13,18 @@ function draw() {
   background(220);
   textSize(16);
   textAlign(CENTER, CENTER);
-  text("click mouse", width/2, heightClar/2);
+
+  if (showImage) {
+    image(img, 0, 0, width, height);
+  } else {
+    text("click mouse", width/2, height/2);
+  }
 }
 
 function mousePressed() {
-  image(img, 0, 0, width, height);
+  showImage = true;
 }
 
 function mouseReleased() {
-  background(220);
-  text("click mouse", width / 2, height / 2);
+  showImage = false;
 }
