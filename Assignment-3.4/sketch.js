@@ -152,7 +152,7 @@ function setup() {
 function draw() {
   background(220);
 
-  const msg = port.readUntil('\n');
+  const info = port.readUntil('\n');
   frameRateMultiplier = 1 + Math.floor(score / 3);
   speedMultiplier = 1 + Math.floor(score / 6);
   Tone.Transport.bpm.value = 80 + speedMultiplier * 20;
@@ -210,8 +210,8 @@ function draw() {
           skitter.stop();
         }
       }
-      if (msg && msg.startsWith('joystart')) {
-        const values = msg.slice(9).split(',');
+      if (info && info.startsWith('joystart')) {
+        const values = info.slice(8).split(',');
         if (values.length === 2) {
           const x = Number(values[0]);
           const y = Number(values[1]);
@@ -220,13 +220,15 @@ function draw() {
             dirY = Math.abs(y) < 0.1 ? 0 : y;
           }
         }
-      } else if (msg && msg.startsWith('press')) {
-        squish(xCross, yCross);
+      } else if (info && info.startsWith('press')) {
+        squashBug();
       }
-      xCross += dirX * -8; // Inverted to fix left/right movement
+      xCross += dirX * 8;
       yCross += dirY * 8;
-      fill(0, 0, 0);
-      circle(xCross, yCross, 20);
+      stroke(0);
+      // strokeWeight(2);
+      line(xCross - 20, yCross, xCross + 20, yCross);
+      line(xCross, yCross - 20, xCross, yCross + 20);
       break;
     case GameStates.END:
       textAlign(CENTER, CENTER);
@@ -242,28 +244,29 @@ function draw() {
 }
 
 function mousePressed() {
-  squish(mouseX, mouseY);
-}
-
-function squish(x, y) {
   if (gameState !== GameStates.PLAY) return;
+  skitter.start();
+  let hitBug = false;
 
-  let squished = false;
-  bugs.forEach(b => {
-    if (b.dead) return;
-    if (sqrt((x - b.x) ** 2 + (y - b.y) ** 2) > 50) return;
-    squished = true;
-    b.squish();
-    score++;
-    step++;
-    Tone.Transport.bpm.value = 80 * (1 + score / 20);
-  });
+  for (let bug of bugs) {
+    if (
+      mouseX > bug.x &&
+      mouseX < bug.x + spriteWidth &&
+      mouseY > bug.y &&
+      mouseY < bug.y + spriteHeight &&
+      !bug.squashed
+    ) {
+      bug.squashed = true;
+      score++;
+      hitBug = true;
+      squish.start();
+      break;
+    }
+  }
 
-  if (squished) {
-    port.write("light\n");
-    squishSound.start();
-  } else {
-    missSound.start();
+  if (!hitBug) {
+    missedNoise.start();
+    missedEnv.triggerAttackRelease(0.2);
   }
 }
 
@@ -279,4 +282,27 @@ function keyPressed() {
 
 function connectPort(){
   port.open('Arduino', 9600);
+}
+
+function squashBug() {
+  if (gameState !== GameStates.PLAY) return;
+  skitter.start();
+  let hitBug = false;
+
+  for (let bug of bugs) {
+    if (!bug.squashed &&
+        xCross >= bug.x && xCross <= bug.x + spriteWidth &&
+        yCross >= bug.y && yCross <= bug.y + spriteHeight) {
+      bug.squashed = true;
+      score++;
+      squish.start();
+      hitBug = true;
+      break;
+    }
+  }
+
+  if (!hitBug) {
+    missedNoise.start();
+    missedEnv.triggerAttackRelease("8n");
+  }
 }
