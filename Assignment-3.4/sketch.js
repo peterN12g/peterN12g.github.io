@@ -223,8 +223,8 @@ function draw() {
       } else if (info && info.startsWith('press')) {
         squashBug();
       }
-      xCross += dirX * 8;
-      yCross += dirY * 8;
+      xCross += dirX * 4;
+      yCross += dirY * 4;
       stroke(0);
       // strokeWeight(2);
       line(xCross - 20, yCross, xCross + 20, yCross);
@@ -285,24 +285,15 @@ function connectPort(){
 }
 
 function squashBug() {
-  if (gameState !== GameStates.PLAY) return;
-  skitter.start();
-  let hitBug = false;
-
   for (let bug of bugs) {
     if (!bug.squashed &&
         xCross >= bug.x && xCross <= bug.x + spriteWidth &&
         yCross >= bug.y && yCross <= bug.y + spriteHeight) {
       bug.squashed = true;
-      score++;
       squish.start();
-      hitBug = true;
+      score++;
+      port.write("buzz\n");
       break;
     }
-  }
-
-  if (!hitBug) {
-    missedNoise.start();
-    missedEnv.triggerAttackRelease("8n");
   }
 }

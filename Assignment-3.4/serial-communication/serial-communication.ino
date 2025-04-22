@@ -2,6 +2,7 @@ const int SW_PIN = 7;
 const int xMov = A0;
 const int yMov = A1;
 bool holdDown = false;
+const int buzz_PIN = 8;
 
 void setup() {
   Serial.begin(9600);
@@ -34,5 +35,13 @@ void loop() {
     holdDown = false;
   }
   
+    if (Serial.available() > 0) {
+    String command = Serial.readStringUntil('\n');
+    command.trim();
+    if (command == "buzz") {
+      tone(buzz_PIN, 1000, 200);
+    }
+  }
+
   delay(20);
 }
