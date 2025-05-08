@@ -42,6 +42,8 @@ Each tapped health target gains 1 life.
 
 ### Cross Hair
 
+The cross hair is created by drawing lines in p5. The user controls the movement of the crosshair to tap the targets.
+
 ## Mechanics
 
 ### Lives
